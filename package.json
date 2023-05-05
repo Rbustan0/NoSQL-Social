@@ -1,0 +1,12 @@
+{
+  "name": "nosql-social",
+  "version": "1.0.0",
+  "description": "Goal is to create a social network API that uses a NoSQL database",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
