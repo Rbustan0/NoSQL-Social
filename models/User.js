@@ -1,4 +1,4 @@
-const { Schema, Model } = require('mongoose');
+const { Schema, model } = require('mongoose');
 
 // Schema for User:
 const userSchema = new Schema(
@@ -13,7 +13,7 @@ const userSchema = new Schema(
             type: String,
             required: true,
             unique: true,
-            // Found on site: https://masteringjs.io/tutorials/mongoose/mongoose-validate-unique-email Validates min one character before the @, before the . for the site, and then one after the . for the site
+            // Found on site: https://masteringjs.io/tutorials/mongoose/mongoose-validate-unique-email Validates min one character before the @, before the . for the tation, and it's a featusite, and then one after the . for the site
             match: [/.+\@.+\..+/, 'Please enter a valid email address']
         },
         thoughts: [
@@ -31,6 +31,7 @@ const userSchema = new Schema(
 
     }
 );
+
 
 // Virtual property to get the length of the user's friends array.
 
