@@ -1,6 +1,4 @@
 const { Schema, Model } = require('mongoose');
-// require this allows me to make some code below shorter.
-const Thought = require('./Thought');
 
 // Schema for User:
 const userSchema = new Schema(
@@ -18,8 +16,12 @@ const userSchema = new Schema(
             // Found on site: https://masteringjs.io/tutorials/mongoose/mongoose-validate-unique-email Validates min one character before the @, before the . for the site, and then one after the . for the site
             match: [/.+\@.+\..+/, 'Please enter a valid email address']
         },
-        thoughts: [Thought],
-        // Self references (dont want to take chance)
+        thoughts: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'Thought'
+            }
+        ],
         friends: [
             {
                 type: Schema.Types.ObjectId,
