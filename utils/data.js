@@ -1,5 +1,6 @@
 // !WORK HERE FIRST THING!
 
+const { ObjectId } = require('mongoose').Types;
 
 // Data that follows User Schema
 
@@ -52,3 +53,9 @@ const emailSamples = [
 'emailtest789@example.com',
 'randomemailuser@example.com'
 ];
+
+const users = [];
+
+// Get a random item given an array
+const getRandomArrItem = (arr) => arr[Math.floor(Math.random() * arr.length)];
+
