@@ -89,7 +89,7 @@ module.exports = {
         }
     },
 
-    //! api/thoughts/:thoughtsId/reactions
+    //! api/thoughts/:thoughtId/reactions
 
     // 1. POST to create a reaction stored in a single thought's reactions array field.
     createReaction: async (req, res) => {
