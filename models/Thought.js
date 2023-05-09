@@ -61,6 +61,13 @@ const thoughtSchema = new Schema({
     },
     // Going to try this in this format due to it also being defined in the same file structure.
     reactions: [reactionSchema],
+
+},
+{
+    toJSON: {
+        virtuals: true // Include virtual properties when converting to JSON
+    },
+    id: false // Disable the default 'id' virtual property
 });
 
 

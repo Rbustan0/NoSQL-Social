@@ -27,8 +27,13 @@ const userSchema = new Schema(
                 type: Schema.Types.ObjectId,
                 ref: 'User'
             }
-        ]
-
+        ],
+    },
+    {
+        toJSON: {
+            virtuals: true // Include virtual properties when converting to JSON
+        },
+        id: false // Disable the default 'id' virtual property
     }
 );
 
