@@ -70,6 +70,7 @@ module.exports = {
         try {
             const deletedThought = await Thought.findByIdAndDelete(req.params.thoughtId);
 
+            // need this to be a standard if statement
             if (!deletedThought) {
                 return res.status(404).json({ error: 'Thought not found' });
             }
@@ -86,12 +87,45 @@ module.exports = {
             console.error(error);
             res.status(500).json({ error: 'Server Issue' });
         }
-    }
+    },
 
     //! api/thoughts/:thoughtsId/reactions
 
     // 1. POST to create a reaction stored in a single thought's reactions array field.
+    createReaction: async (req, res) => {
+        try {
+            const thought = await Thought.findByIdAndUpdate(
+                req.params.thoughtId,
+                { $push: { reactions: req.body } },
+                { new: true }
+            );
+            !thought
+                ? res.status(404).json({ error: 'Thought not found' })
+                : res.status(201).json(thought);
 
-    // 2. DELETE to pull and remove a reaction by the reaction';s reactionId value.
+        } 
+        
+        catch (error) {
+            console.error(error);
+            res.status(500).json({ error: 'Server Issue' });
+        }
+    
+    },
 
-}
+    // 2. DELETE to pull and remove a reaction by the reaction's reactionId value.
+    deleteReaction: async (req, res) => {
+        try {
+            const thought = await Thought.findByIdAndUpdate(
+                req.params.thoughtId,
+                { $pull: { reactions: { reactionId: req.params.reactionId } } },
+                { new: true }
+            );
+            !thought
+                ? res.status(404).json({ error: 'Thought not found' })
+                : res.status(200).json(thought);
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ error: 'Server Issue' });
+        }
+    }
+};
