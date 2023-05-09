@@ -8,7 +8,7 @@ const {
     deleteUser,
     addFriend,
     removeFriend
-} = require('../controllers/userController');
+} = require('../../controllers/userController');
 
 // routes and associated CRUD methods:
 

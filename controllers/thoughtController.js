@@ -36,9 +36,13 @@ module.exports = {
                 { $push: { thoughts: thought._id } }, //adds element to array field
                 { new: true }
             );
-            !user
-                ? res.status(404).json({ error: 'User not found' })
-                : res.status(201).json(thought);
+
+            // Changed this because threw an error
+            if(!user){
+               return res.status(404).json({ error: 'User not found' });
+            }
+                 
+            res.status(201).json(thought);
 
         } catch (error) {
             console.error(error);
