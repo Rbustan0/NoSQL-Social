@@ -80,12 +80,59 @@ module.exports = {
             ? res.status(404).json({ error: 'User not found'})
             : res.status(200).json({ message: 'User was deleted!'});
             
-            // BONUS Delete associated thoughts
+            // BONUS: Delete associated thoughts
             await Thought.deleteMany({ username: deletedUser.username });
         }
         catch(error) {
             console.error(error);
             res.status(500).json({ error: 'Server Issue'});
+        }
+    },
+
+    //! /api/users/:userId/friends/:friendId
+    
+    // 1. POST to add new friend to a user's friends list:
+
+    addFriend: async(req,res) => {
+        try{
+            // destruct for use in function
+            const { userId, friendId } = req.params;
+
+            const user = await User.findByIdAndUpdate(
+                userId,
+                { $addToSet: { friends: friendId }}, //prevents duplicate adds
+                { new: true }
+            );
+
+            !user
+                ? res.status(404).json({ error: 'User not found' })
+                : res.status(200).json(user);
+        }
+        catch(error){
+            console.error(error);
+            res.status(500).json({ error: 'Server Issue' });
+        }
+    },
+    
+    // 2. DELETE to remove a friend from a user's friends list:
+
+    removeFriend: async (req, res) => {
+        try{
+            const { userId, friendId } = req.params;
+
+            const user = await User.findByIdAndUpdate(
+                userId,
+                { $pull: { friends: friendId } },
+                { new: true }
+            );
+
+            !user
+                ? res.status(404).json({ error: 'User not found' })
+                : res.status(200).json(user);
+        }
+        catch(error){
+            console.error(error);
+            res.status(500).json({ error: 'Server Issue' });
         }
     }
 
@@ -94,10 +141,5 @@ module.exports = {
 
 
 
-//! /api/users/:userId/friends/:friendId
-
-// 1. POST to add new friend to a user's friends list:
-
-// 2. DELETE to remove a friend from a user's friends list:
 
 
