@@ -1,4 +1,5 @@
 const { User, Thought } = require('../models');
+const mongoose = require('mongoose');
 
 module.exports = {
 
@@ -8,7 +9,9 @@ module.exports = {
     getAllThoughts: async (req, res) => {
         try {
             const thoughts = await Thought.find();
+
             res.status(200).json(thoughts);
+            
         } catch (error) {
             console.error(error);
             res.status(500).json({ error: 'Failed to get all thoughts' });
@@ -18,6 +21,7 @@ module.exports = {
     getSingleThought: async (req, res) => {
         try {
             const thought = await Thought.findOne({ _id: req.params.thoughtId });
+
             !thought
                 ? res.status(404).json({ error: 'Thought not found' })
                 : res.status(200).json(thought);
@@ -117,13 +121,19 @@ module.exports = {
     },
 
     // 2. DELETE to pull and remove a reaction by the reaction's reactionId value.
+
     deleteReaction: async (req, res) => {
         try {
+            const { thoughtId } = req.params;
+            const { reactionId } = req.body;
+
             const thought = await Thought.findByIdAndUpdate(
-                req.params.thoughtId,
-                { $pull: { reactions: { reactionId: req.params.reactionId } } },
+                thoughtId,
+                // could not get it to work without this new id 
+                { $pull: { reactions: { _id: new mongoose.Types.ObjectId(reactionId) } } },
                 { new: true }
             );
+
             !thought
                 ? res.status(404).json({ error: 'Thought not found' })
                 : res.status(200).json(thought);
